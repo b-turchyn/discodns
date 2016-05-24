@@ -2,7 +2,7 @@
 discodns
 ======
 
-[![Build Status](https://travis-ci.org/duedil-ltd/discodns.png?branch=master)](https://travis-ci.org/duedil-ltd/discodns)
+[![Build Status](https://travis-ci.org/splack/discodns.png?branch=master)](https://travis-ci.org/splack/discodns)
 
 An authoritative DNS nameserver that queries an [etcd](http://github.com/coreos/etcd) database of domains and records.
 
