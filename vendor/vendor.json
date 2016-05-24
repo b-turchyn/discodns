@@ -1,0 +1,31 @@
+{
+	"comment": "",
+	"ignore": "",
+	"package": [
+		{
+			"checksumSHA1": "fzbsZ7iZnP1od4lwakHWqmJhkB4=",
+			"path": "github.com/coreos/go-etcd/etcd",
+			"revision": "6aa2da5a7a905609c93036b9307185a04a5a84a5",
+			"revisionTime": "2014-12-31T03:30:01Z"
+		},
+		{
+			"checksumSHA1": "5C5nCNULbaEcmpvsnajx6YURFZg=",
+			"path": "github.com/jessevdk/go-flags",
+			"revision": "b350cb1deecd3da4b80a29ccc4054abfd6329001",
+			"revisionTime": "2016-05-22T07:57:21Z"
+		},
+		{
+			"checksumSHA1": "LKkjxYbtILxk3+OJYwX3vhY0Y1A=",
+			"path": "github.com/miekg/dns",
+			"revision": "48ab6605c66ac797e07f615101c3e9e10e932b66",
+			"revisionTime": "2016-05-12T06:43:16Z"
+		},
+		{
+			"checksumSHA1": "zLix4ya0rXrK+LaEcGo0UWNEq7A=",
+			"path": "github.com/rcrowley/go-metrics",
+			"revision": "eeba7bd0dd01ace6e690fa833b3f22aaec29af43",
+			"revisionTime": "2016-02-26T05:29:04Z"
+		}
+	],
+	"rootPath": "github.com/splack/discodns"
+}
