@@ -21,16 +21,16 @@ var (
 
 	// Define all of the command line arguments
 	Options struct {
-		ListenAddress    string   `short:"l" long:"listen" description:"Listen IP address" default:"0.0.0.0"`
-		ListenPort       int      `short:"p" long:"port" description:"Port to listen on" default:"53"`
-		EtcdHosts        []string `short:"e" long:"etcd" description:"host:port[,host:port] for etcd hosts" default:"127.0.0.1:4001"`
-		Debug            bool     `short:"v" long:"debug" description:"Enable debug logging"`
-		MetricsDuration  int      `short:"m" long:"metrics" description:"Dump metrics to stderr every N seconds" default:"30"`
-		GraphiteServer   string   `long:"graphite" description:"Graphite server to send metrics to"`
-		GraphiteDuration int      `long:"graphite-duration" description:"Duration to periodically send metrics to the graphite server" default:"10"`
-		DefaultTtl       uint32   `short:"t" long:"default-ttl" description:"Default TTL to return on records without an explicit TTL" default:"300"`
-		Accept           []string `long:"accept" description:"Limit DNS queries to a set of domain:[type,...] pairs"`
-		Reject           []string `long:"reject" description:"Limit DNS queries to a set of domain:[type,...] pairs"`
+		ListenAddress    string   `short:"l" long:"listen" description:"Listen IP address" default:"0.0.0.0" env:"DISCODNS_LISTEN_ADDRESS"`
+		ListenPort       int      `short:"p" long:"port" description:"Port to listen on" default:"53" env:"DISCODNS_LISTEN_PORT"`
+		EtcdHosts        []string `short:"e" long:"etcd" description:"host:port[,host:port] for etcd hosts" default:"127.0.0.1:4001" env:"DISCODNS_ETCD_HOSTS"`
+		Debug            bool     `short:"v" long:"debug" description:"Enable debug logging" env:"DISCODNS_DEBUG"`
+		MetricsDuration  int      `short:"m" long:"metrics" description:"Dump metrics to stderr every N seconds" default:"30" env:"DISCODNS_METRICS_DURATION"`
+		GraphiteServer   string   `long:"graphite" description:"Graphite server to send metrics to" env:"DISCODNS_GRAPHITE_SERVER"`
+		GraphiteDuration int      `long:"graphite-duration" description:"Duration to periodically send metrics to the graphite server" default:"10" env:"DISCODNS_GRAPHITE_DURATION"`
+		DefaultTtl       uint32   `short:"t" long:"default-ttl" description:"Default TTL to return on records without an explicit TTL" default:"300" env:"DISCODNS_DEFAULT_TTL"`
+		Accept           []string `long:"accept" description:"Limit DNS queries to a set of domain:[type,...] pairs" env:"DISCODNS_ACCEPT"`
+		Reject           []string `long:"reject" description:"Limit DNS queries to a set of domain:[type,...] pairs" env:"DISCODNS_REJECT"`
 	}
 )
 
