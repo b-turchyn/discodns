@@ -9,17 +9,17 @@ import (
 	"github.com/rcrowley/go-metrics"
 )
 
-type Server struct {
+type server struct {
 	addr          string
 	port          int
 	etcd          *etcd.Client
 	rTimeout      time.Duration
 	wTimeout      time.Duration
-	defaultTtl    uint32
+	defaultTTL    uint32
 	queryFilterer *QueryFilterer
 }
 
-type Handler struct {
+type handler struct {
 	resolver      *Resolver
 	queryFilterer *QueryFilterer
 
@@ -30,7 +30,7 @@ type Handler struct {
 	responseTimer  metrics.Timer
 }
 
-func (h *Handler) Handle(response dns.ResponseWriter, req *dns.Msg) {
+func (h *handler) Handle(response dns.ResponseWriter, req *dns.Msg) {
 	h.requestCounter.Inc(1)
 	h.responseTimer.Time(func() {
 		debugMsg("Handling incoming query for domain " + req.Question[0].Name)
@@ -53,7 +53,7 @@ func (h *Handler) Handle(response dns.ResponseWriter, req *dns.Msg) {
 			header := dns.RR_Header{Name: req.Question[0].Name,
 				Class:  dns.ClassINET,
 				Rrtype: dns.TypeTXT}
-			msg.Ns = []dns.RR{&dns.TXT{header, []string{"Rejected query based on matched filters"}}}
+			msg.Ns = []dns.RR{&dns.TXT{Hdr: header, Txt: []string{"Rejected query based on matched filters"}}}
 		} else {
 			h.acceptCounter.Inc(1)
 			msg = h.resolver.Lookup(req)
@@ -70,11 +70,11 @@ func (h *Handler) Handle(response dns.ResponseWriter, req *dns.Msg) {
 	})
 }
 
-func (s *Server) Addr() string {
+func (s *server) Addr() string {
 	return s.addr + ":" + strconv.Itoa(s.port)
 }
 
-func (s *Server) Run() {
+func (s *server) Run() {
 
 	tcpResponseTimer := metrics.NewTimer()
 	metrics.Register("request.handler.tcp.response_time", tcpResponseTimer)
@@ -94,15 +94,15 @@ func (s *Server) Run() {
 	udpRejectCounter := metrics.NewCounter()
 	metrics.Register("request.handler.udp.filter_rejects", udpRejectCounter)
 
-	resolver := Resolver{etcd: s.etcd, defaultTtl: s.defaultTtl}
-	tcpDNShandler := &Handler{
+	resolver := Resolver{etcd: s.etcd, defaultTTL: s.defaultTTL}
+	tcpDNShandler := &handler{
 		resolver:       &resolver,
 		requestCounter: tcpRequestCounter,
 		acceptCounter:  tcpAcceptCounter,
 		rejectCounter:  tcpRejectCounter,
 		responseTimer:  tcpResponseTimer,
 		queryFilterer:  s.queryFilterer}
-	udpDNShandler := &Handler{
+	udpDNShandler := &handler{
 		resolver:       &resolver,
 		requestCounter: udpRequestCounter,
 		acceptCounter:  udpAcceptCounter,
@@ -133,7 +133,7 @@ func (s *Server) Run() {
 	go s.start(tcpServer)
 }
 
-func (s *Server) start(ds *dns.Server) {
+func (s *server) start(ds *dns.Server) {
 	err := ds.ListenAndServe()
 	if err != nil {
 		logger.Fatalf("Start %s listener on %s failed:%s", ds.Net, s.Addr(), err.Error())

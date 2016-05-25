@@ -6,11 +6,13 @@ import (
 	"github.com/miekg/dns"
 )
 
+// QueryFilter holds the domain and types of DNS queries to filter
 type QueryFilter struct {
 	domain string
 	qTypes []string
 }
 
+// QueryFilterer holds the QueryFilters that will accept or reject queries
 type QueryFilterer struct {
 	acceptFilters []QueryFilter
 	rejectFilters []QueryFilter

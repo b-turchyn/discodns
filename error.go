@@ -7,6 +7,7 @@ import (
 	"github.com/miekg/dns"
 )
 
+// NodeConversionError holds the details for when an error occurs converting an etcd node into the expected resource record.
 type NodeConversionError struct {
 	Message       string
 	Node          *etcd.Node
@@ -22,6 +23,7 @@ func (e *NodeConversionError) Error() string {
 		&e.Node)
 }
 
+// RecordValueError holes the error message for when a resource record value was the wrong type.
 type RecordValueError struct {
 	Message       string
 	AttemptedType uint16

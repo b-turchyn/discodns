@@ -8,7 +8,7 @@ import (
 
 func TestFilters(t *testing.T) {
 	// Enable debug logging
-	log_debug = true
+	logDebug = true
 }
 
 func TestNoFilters(t *testing.T) {
@@ -16,8 +16,7 @@ func TestNoFilters(t *testing.T) {
 	msg := generateDNSMessage("discodns.net", dns.TypeA)
 
 	if filterer.ShouldAcceptQuery(msg) != true {
-		t.Error("Expected the query to be accepted")
-		t.Fatal()
+		t.Fatal("Expected the query to be accepted")
 	}
 }
 
@@ -26,20 +25,17 @@ func TestSimpleAccept(t *testing.T) {
 
 	msg := generateDNSMessage("discodns.net", dns.TypeA)
 	if filterer.ShouldAcceptQuery(msg) != true {
-		t.Error("Expected the query to be accepted")
-		t.Fatal()
+		t.Fatal("Expected the query to be accepted")
 	}
 
 	msg = generateDNSMessage("discodns.net", dns.TypeAAAA)
 	if filterer.ShouldAcceptQuery(msg) != false {
-		t.Error("Expected the query to be rejected")
-		t.Fatal()
+		t.Fatal("Expected the query to be rejected")
 	}
 
 	msg = generateDNSMessage("discodns.com", dns.TypeA)
 	if filterer.ShouldAcceptQuery(msg) != false {
-		t.Error("Expected the query to be rejected")
-		t.Fatal()
+		t.Fatal("Expected the query to be rejected")
 	}
 }
 
@@ -48,20 +44,17 @@ func TestSimpleReject(t *testing.T) {
 
 	msg := generateDNSMessage("discodns.com", dns.TypeA)
 	if filterer.ShouldAcceptQuery(msg) != true {
-		t.Error("Expected the query to be accepted")
-		t.Fatal()
+		t.Fatal("Expected the query to be accepted")
 	}
 
 	msg = generateDNSMessage("discodns.net", dns.TypeAAAA)
 	if filterer.ShouldAcceptQuery(msg) != true {
-		t.Error("Expected the query to be accepted")
-		t.Fatal()
+		t.Fatal("Expected the query to be accepted")
 	}
 
 	msg = generateDNSMessage("discodns.net", dns.TypeA)
 	if filterer.ShouldAcceptQuery(msg) != false {
-		t.Error("Expected the query to be rejected")
-		t.Fatal()
+		t.Fatal("Expected the query to be rejected")
 	}
 }
 
@@ -70,26 +63,22 @@ func TestSimpleAcceptFullDomain(t *testing.T) {
 
 	msg := generateDNSMessage("discodns.net", dns.TypeA)
 	if filterer.ShouldAcceptQuery(msg) != true {
-		t.Error("Expected the query to be accepted")
-		t.Fatal()
+		t.Fatal("Expected the query to be accepted")
 	}
 
 	msg = generateDNSMessage("discodns.net", dns.TypeANY)
 	if filterer.ShouldAcceptQuery(msg) != true {
-		t.Error("Expected the query to be accepted")
-		t.Fatal()
+		t.Fatal("Expected the query to be accepted")
 	}
 
 	msg = generateDNSMessage("discodns.com", dns.TypeA)
 	if filterer.ShouldAcceptQuery(msg) != false {
-		t.Error("Expected the query to be rejected")
-		t.Fatal()
+		t.Fatal("Expected the query to be rejected")
 	}
 
 	msg = generateDNSMessage("discodns.com", dns.TypeANY)
 	if filterer.ShouldAcceptQuery(msg) != false {
-		t.Error("Expected the query to be rejected")
-		t.Fatal()
+		t.Fatal("Expected the query to be rejected")
 	}
 }
 
@@ -98,26 +87,22 @@ func TestSimpleRejectFullDomain(t *testing.T) {
 
 	msg := generateDNSMessage("discodns.net", dns.TypeA)
 	if filterer.ShouldAcceptQuery(msg) != false {
-		t.Error("Expected the query to be rejected")
-		t.Fatal()
+		t.Fatal("Expected the query to be rejected")
 	}
 
 	msg = generateDNSMessage("discodns.net", dns.TypeANY)
 	if filterer.ShouldAcceptQuery(msg) != false {
-		t.Error("Expected the query to be rejected")
-		t.Fatal()
+		t.Fatal("Expected the query to be rejected")
 	}
 
 	msg = generateDNSMessage("discodns.com", dns.TypeA)
 	if filterer.ShouldAcceptQuery(msg) != true {
-		t.Error("Expected the query to be accepted")
-		t.Fatal()
+		t.Fatal("Expected the query to be accepted")
 	}
 
 	msg = generateDNSMessage("discodns.com", dns.TypeANY)
 	if filterer.ShouldAcceptQuery(msg) != true {
-		t.Error("Expected the query to be accepted")
-		t.Fatal()
+		t.Fatal("Expected the query to be accepted")
 	}
 }
 
@@ -126,14 +111,12 @@ func TestSimpleAcceptSpecificTypes(t *testing.T) {
 
 	msg := generateDNSMessage("discodns.net", dns.TypeA)
 	if filterer.ShouldAcceptQuery(msg) != true {
-		t.Error("Expected the query to be accepted")
-		t.Fatal()
+		t.Fatal("Expected the query to be accepted")
 	}
 
 	msg = generateDNSMessage("discodns.net", dns.TypeAAAA)
 	if filterer.ShouldAcceptQuery(msg) != false {
-		t.Error("Expected the query to be rejected")
-		t.Fatal()
+		t.Fatal("Expected the query to be rejected")
 	}
 }
 
@@ -142,20 +125,17 @@ func TestSimpleAcceptMultipleTypes(t *testing.T) {
 
 	msg := generateDNSMessage("discodns.net", dns.TypeA)
 	if filterer.ShouldAcceptQuery(msg) != true {
-		t.Error("Expected the query to be accepted")
-		t.Fatal()
+		t.Fatal("Expected the query to be accepted")
 	}
 
 	msg = generateDNSMessage("discodns.net", dns.TypeAAAA)
 	if filterer.ShouldAcceptQuery(msg) != false {
-		t.Error("Expected the query to be rejected")
-		t.Fatal()
+		t.Fatal("Expected the query to be rejected")
 	}
 
 	msg = generateDNSMessage("discodns.net", dns.TypePTR)
 	if filterer.ShouldAcceptQuery(msg) != true {
-		t.Error("Expected the query to be accepted")
-		t.Fatal()
+		t.Fatal("Expected the query to be accepted")
 	}
 }
 
@@ -164,14 +144,12 @@ func TestSimpleRejectSpecificTypes(t *testing.T) {
 
 	msg := generateDNSMessage("discodns.net", dns.TypeA)
 	if filterer.ShouldAcceptQuery(msg) != false {
-		t.Error("Expected the query to be rejected")
-		t.Fatal()
+		t.Fatal("Expected the query to be rejected")
 	}
 
 	msg = generateDNSMessage("discodns.net", dns.TypeAAAA)
 	if filterer.ShouldAcceptQuery(msg) != true {
-		t.Error("Expected the query to be accepted")
-		t.Fatal()
+		t.Fatal("Expected the query to be accepted")
 	}
 }
 
@@ -180,20 +158,17 @@ func TestSimpleRejectMultipleTypes(t *testing.T) {
 
 	msg := generateDNSMessage("discodns.net", dns.TypeA)
 	if filterer.ShouldAcceptQuery(msg) != false {
-		t.Error("Expected the query to be rejected")
-		t.Fatal()
+		t.Fatal("Expected the query to be rejected")
 	}
 
 	msg = generateDNSMessage("discodns.net", dns.TypeAAAA)
 	if filterer.ShouldAcceptQuery(msg) != true {
-		t.Error("Expected the query to be accepted")
-		t.Fatal()
+		t.Fatal("Expected the query to be accepted")
 	}
 
 	msg = generateDNSMessage("discodns.net", dns.TypePTR)
 	if filterer.ShouldAcceptQuery(msg) != false {
-		t.Error("Expected the query to be rejected")
-		t.Fatal()
+		t.Fatal("Expected the query to be rejected")
 	}
 }
 
@@ -202,26 +177,22 @@ func TestMultipleAccept(t *testing.T) {
 
 	msg := generateDNSMessage("discodns.net", dns.TypeA)
 	if filterer.ShouldAcceptQuery(msg) != true {
-		t.Error("Expected the query to be accepted")
-		t.Fatal()
+		t.Fatal("Expected the query to be accepted")
 	}
 
 	msg = generateDNSMessage("discodns.net", dns.TypeAAAA)
 	if filterer.ShouldAcceptQuery(msg) != false {
-		t.Error("Expected the query to be rejected")
-		t.Fatal()
+		t.Fatal("Expected the query to be rejected")
 	}
 
 	msg = generateDNSMessage("discodns.com", dns.TypeAAAA)
 	if filterer.ShouldAcceptQuery(msg) != true {
-		t.Error("Expected the query to be accepted")
-		t.Fatal()
+		t.Fatal("Expected the query to be accepted")
 	}
 
 	msg = generateDNSMessage("discodns.com", dns.TypeA)
 	if filterer.ShouldAcceptQuery(msg) != false {
-		t.Error("Expected the query to be rejected")
-		t.Fatal()
+		t.Fatal("Expected the query to be rejected")
 	}
 }
 
@@ -230,26 +201,22 @@ func TestMultipleReject(t *testing.T) {
 
 	msg := generateDNSMessage("discodns.net", dns.TypeA)
 	if filterer.ShouldAcceptQuery(msg) != false {
-		t.Error("Expected the query to be rejected")
-		t.Fatal()
+		t.Fatal("Expected the query to be rejected")
 	}
 
 	msg = generateDNSMessage("discodns.net", dns.TypeAAAA)
 	if filterer.ShouldAcceptQuery(msg) != true {
-		t.Error("Expected the query to be accepted")
-		t.Fatal()
+		t.Fatal("Expected the query to be accepted")
 	}
 
 	msg = generateDNSMessage("discodns.com", dns.TypeAAAA)
 	if filterer.ShouldAcceptQuery(msg) != false {
-		t.Error("Expected the query to be rejected")
-		t.Fatal()
+		t.Fatal("Expected the query to be rejected")
 	}
 
 	msg = generateDNSMessage("discodns.com", dns.TypeA)
 	if filterer.ShouldAcceptQuery(msg) != true {
-		t.Error("Expected the query to be accepted")
-		t.Fatal()
+		t.Fatal("Expected the query to be accepted")
 	}
 }
 
