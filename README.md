@@ -13,6 +13,7 @@ An authoritative DNS nameserver that queries an [etcd](http://github.com/coreos/
     - `CNAME` alias records
     - Delegation via `NS` and `SOA` records
     - `SRV` and `PTR` for service discovery and reverse domain lookups
+    - `MX` records for email support
 - Multiple resource records of different types per domain (where valid)
 - Support for wildcard domains
 - Support for TTLs
@@ -162,6 +163,25 @@ curl -L http://127.0.0.1:4001/v2/keys/net/discodns/.NS/ns2 -XPUT -d value=ns2.di
 ```
 
 **Don't forget to ensure you also add `A` records for the `ns{1,2}.discodns.net` domains to ensure they can resolve to IPs.**
+
+#### MX
+
+MX records are needed so that we can receive email for our domain.
+
+```
+curl -L http://127.0.0.1:4001/v2/keys/net/discodns/.MX/primary -XPUT -d value=$'10\tmail1.discodns.net.'
+{"action":"set","node":{"key":"/net/discodns/.MX/primary","value":"...","modifiedIndex":14,"createdIndex":14}}
+```
+
+```
+curl -L http://127.0.0.1:4001/v2/keys/net/discodns/.MX/primary -XPUT -d value=$'20\tmail2.discodns.net.'
+{"action":"set","node":{"key":"/net/discodns/.MX/primary","value":"...","modifiedIndex":15,"createdIndex":15}}
+```
+
+MX records require two fields in the value: preference and hostname. MX records
+with lower preferences have a higher priority.
+
+**Don't forget to ensure you also add `A` records for the `mail{1,2}.discodns.net` domains to ensure they can resolve to IPs.**
 
 ## Storage
 
