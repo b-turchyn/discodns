@@ -9,7 +9,7 @@ import (
 )
 
 var (
-	client   = etcd.NewClient([]string{"http://127.0.0.1:4001"})
+	client   = etcd.NewClient([]string{"http://172.17.0.2:4001"})
 	resolver = &Resolver{etcd: client}
 )
 
@@ -902,5 +902,33 @@ func TestLookupAnswerForSRVInvalidValues(t *testing.T) {
 		if err == nil {
 			t.Fatal("Expected error, didn't get one")
 		}
+	}
+}
+
+func TestLookupAnswerForMX(t *testing.T) {
+	resolver.etcdPrefix = "TestLookupAnswerForCNAME/"
+	client.Set("TestLookupAnswerForCNAME/net/disco/bar/.MX", "37\tmx.google.com.", 0)
+	defer client.Delete(resolver.etcdPrefix, true)
+
+	records, _ := resolver.LookupAnswersForType("bar.disco.net.", dns.TypeMX)
+
+	if len(records) != 1 {
+		t.Fatal("Expected one answer, got ", len(records))
+	}
+
+	rr := records[0].(*dns.MX)
+	header := rr.Header()
+
+	if header.Name != "bar.disco.net." {
+		t.Fatal("Expected record with name bar.disco.net.: ", header.Name)
+	}
+	if header.Rrtype != dns.TypeMX {
+		t.Fatal("Expected record with type MX:", header.Rrtype)
+	}
+	if rr.Preference != 37 {
+		t.Fatal("Expected preference to be 37: ", rr.Preference)
+	}
+	if rr.Mx != "mx.google.com." {
+		t.Fatal("Expected MX record to be mx.google.com.: ", rr.Mx)
 	}
 }

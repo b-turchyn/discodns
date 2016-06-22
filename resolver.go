@@ -366,6 +366,15 @@ var converters = map[uint16]func(node *etcd.Node, header dns.RR_Header) (rr dns.
 		rr = &dns.TXT{Hdr: header, Txt: []string{node.Value}}
 		return
 	},
+	dns.TypeMX: func(node *etcd.Node, header dns.RR_Header) (rr dns.RR, err error) {
+		parts := strings.SplitN(node.Value, "\t", 2)
+		preference, err := strconv.ParseUint(parts[0], 10, 16)
+		if err != nil {
+			return nil, err
+		}
+		rr = &dns.MX{Hdr: header, Preference: uint16(preference), Mx: dns.Fqdn(parts[1])}
+		return
+        },
 	dns.TypeCNAME: func(node *etcd.Node, header dns.RR_Header) (rr dns.RR, err error) {
 		rr = &dns.CNAME{Hdr: header, Target: dns.Fqdn(node.Value)}
 		return
