@@ -67,7 +67,18 @@ Why not ZooKeeper? The etcd API is much simpler for users to use, and it uses [R
 
 Another attractive quality about etcd is the ability to continue serving (albeit stale) read queries even when a consensus cannot be reached, allowing the cluster to enter a semi-failed state where it cannot accept writes, but it will serve reads. This kind of graceful service degradation is very useful for a read-heavy system, such as DNS.
 
-Currently, discodns is locked to etcd 0.4.6
+### Supported Versions
+
+Automated tests are run against the following versions of Go and etcd:
+
+- Go
+    - 1.6.2
+    - 1.5.4
+- etcd
+    - 2.3.7
+    - 2.2.5
+    - 2.1.3
+    - 2.0.13
 
 ## Getting Started
 
