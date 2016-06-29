@@ -6,6 +6,7 @@ import (
 	"os"
 	"os/signal"
 	"runtime"
+	"runtime/pprof"
 	"strings"
 	"time"
 
@@ -31,6 +32,7 @@ var (
 		DefaultTTL       uint32   `short:"t" long:"default-ttl" description:"Default TTL to return on records without an explicit TTL" default:"300" env:"DISCODNS_DEFAULT_TTL"`
 		Accept           []string `long:"accept" description:"Limit DNS queries to a set of domain:[type,...] pairs" env:"DISCODNS_ACCEPT"`
 		Reject           []string `long:"reject" description:"Limit DNS queries to a set of domain:[type,...] pairs" env:"DISCODNS_REJECT"`
+                CPUProfile       bool     `long:"cpuprofile" description:"Enable CPU Profiling" env:"DISCODNS_CPUPROFILE"`
 	}
 )
 
@@ -40,6 +42,16 @@ func main() {
 	if err != nil {
 		os.Exit(1)
 	}
+
+        if options.CPUProfile {
+		f, err := os.Create("cpuprofile")
+		if err != nil {
+			log.Fatal(err)
+			os.Exit(2)
+		}
+		pprof.StartCPUProfile(f)
+		defer pprof.StopCPUProfile()
+        }
 
 	if options.Debug {
 		logDebug = true
